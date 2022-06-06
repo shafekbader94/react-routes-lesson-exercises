@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import Home from './components/Home';
+import About from './components/About';
+import Fentities from './components/Fentities';
+import Fentity from './components/Fentity';
 class App extends Component {
   constructor() {
     super()
@@ -21,15 +25,22 @@ class App extends Component {
   render() {
     const state = this.state
     return (
+      <Router> 
       <div className="App">
         <div id="home-background"></div>
         <div id="main-links">
-          {/* Main Links */}
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+         
         </div>
         {/* Routes go here v */}
-
+        <Route exact path="/" component={Home}/>
+        <Route exact path="/about" render={() => <About items={Object.keys(state)} />} />
         {/* Routes go here ^ */}
+        <Route path="/directory/:fentities" exact render={({ match }) => <Fentities match={match} state={state}/>}/>
+        <Route path="/directory/:fentities/:name" exact render={({ match }) => <Fentity match={match} state={state}/>}/>
       </div>
+      </Router>
     );
   }
 }
